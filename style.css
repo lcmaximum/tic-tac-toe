@@ -1,0 +1,26 @@
+#control-panel {
+    border: solid;
+  }
+  
+  
+  
+  
+  .row {
+    display: flex;
+    justify-content: center;
+    border: solid green;
+  }
+  
+  
+  
+  .cell {
+    display: inline;
+    border: solid black;
+    padding: 15px;
+  }
+  
+  #game-board {
+    
+    border: solid #e25ac9;
+    
+  }
