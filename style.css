@@ -1,26 +1,15 @@
-#control-panel {
-    border: solid;
-  }
-  
-  
-  
-  
-  .row {
-    display: flex;
-    justify-content: center;
-    border: solid green;
-  }
-  
-  
-  
-  .cell {
-    display: inline;
-    border: solid black;
-    padding: 15px;
-  }
-  
-  #game-board {
-    
-    border: solid #e25ac9;
-    
-  }
+.cell {
+  border: solid;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+#board {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
