@@ -2,8 +2,8 @@ const board = document.getElementById("board");
 const messageArea = document.getElementById("message-area");
 
 const btn = document.querySelector("button");
-const playerX = { name: "X", cells: [] };
-const playerO = { name: "O", cells: [] };
+const playerX = { name: "X", cells: [], color: "green" };
+const playerO = { name: "O", cells: [], color: "pink" };
 
 let c1 = document.getElementById("top-left");
 let c2 = document.getElementById("top-middle");
@@ -30,6 +30,7 @@ let currentPlayer = players[0];
 const winningStreaks = [s1, s2, s3, s4, s5, s6, s7, s8];
 
 function checkStreaks() {
+  let streakExists = false;
   players.forEach((player) => {
     winningStreaks.forEach((streak) => {
       if (
@@ -37,10 +38,23 @@ function checkStreaks() {
         player.cells.includes(streak[1]) &&
         player.cells.includes(streak[2])
       ) {
+        streakExists = true;
         messageArea.textContent = player.name + " WINS!";
       }
     });
   });
+  if (!streakExists) {
+    if (checkTie()) {
+      messageArea.textContent = "Tied game!";
+    }
+  }
+}
+
+function checkTie() {
+  const isClicked = (currentValue) =>
+    currentValue.classList.contains("clicked");
+
+  return allCells.every(isClicked);
 }
 
 function switchTurns() {
@@ -53,11 +67,20 @@ function switchTurns() {
 
 function playerStamp(e) {
   if (!e.target.classList.contains("clicked")) {
+    //WTFFFFFFFFF 'includes' doesn't work
+    //ok so classList is a Nodelist so it uses contains instead
+    //but good luck finding anything to that effect on the internet
+    //'js doesn't use 'contains' - java does' uhhhh am i a java programmer then?
+    //what a stupid distinction
+    //read up on nodelists i guess
+
     e.target.innerText = currentPlayer.name;
+    e.target.style.color = currentPlayer.color;
     currentPlayer.cells.push(e.target);
     e.target.classList.add("clicked");
 
     checkStreaks();
+    checkTie();
     switchTurns();
   }
 }
@@ -66,9 +89,12 @@ function reset() {
   allCells.forEach((cell) => {
     cell.classList.remove("clicked");
     cell.textContent = "";
-    messageArea.textContent = "";
-    console.log(cell);
+    cell.style.color = "black";
   });
+  messageArea.textContent = "";
+  playerX.cells = [];
+  playerO.cells = [];
+  currentPlayer = playerX;
   console.log("reset");
 }
 board.addEventListener("click", playerStamp);
